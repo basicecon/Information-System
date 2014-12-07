@@ -14,27 +14,30 @@
 		$cursor1 = $collection->find($criteria1);
 		$cursor2 = $collection->find($criteria2);
 		
-		if ($cursor == null && $cursor1 == null && $cursor2 == null) {
-			$message = 'No such actor';
-		}
-
+		$flag = 0;
 		if ($cursor != null) {
 			foreach ($cursor as $obj) {
+				$flag = 1;
 				$info = '<br>' . $obj['birthdate'] . '</br>';	
 			}
 		}
 		if ($cursor1 != null) {
 			$info1 = "";
 			foreach ($cursor1 as $obj) {
+				$flag = 1;
 				$info1 .= '<br>' . $obj['movie'] . '</br>';
 			}
 		}
 		if ($cursor2 != null) {
 			$info2 = "";
 			foreach ($cursor2 as $obj) {
+				$flag = 1;
 				$info2 .= '<p><img src="/images/' . $obj['fileName'] 
 					. '"' . ' alt=""></p>';
 			}
+		}	
+		if ($flag == 0) {
+			$message = 'No such actor';
 		}	
 	} catch (Exception $e) {
 		$message = 'error';

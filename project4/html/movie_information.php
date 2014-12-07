@@ -13,32 +13,37 @@
  		$cursor1 = $collection->find($criteria1);
 		$cursor2 = $collection->find($criteria2);
 		
-		if ($cursor == null && $cursor1 == null && $cursor2 == null) {
-			$message = 'No such movie';
-		} 
+		$flag = 0;
 		if ($cursor != null) {
 			foreach ($cursor as $obj) {
+				$flag = 1;
 				$info = '<br>' . $obj['genre'] . '</br>' .
 					'<br>' . $obj['releaseYear'] . '</br>' .
 					'<br>' . $obj['plotSummary'] . '</br>';
 			}
 		}
  		if ($cursor1 != null) {
+			$info1 = "";
 			foreach ($cursor1 as $obj) {
-				$info1 = '<br>' . $obj['castMember'] . '</br>';
+				$flag = 1;
+				$info1 .= '<br>' . $obj['castMember'] . '</br>';
 			}
 		}
 		if ($cursor2 != null) {
 			$user_number = 0;
 			$score = 0;
 			foreach ($cursor2 as $obj) {
+				$flag = 1;
 				$score += $obj['rating'];
 				$user_number ++;
 			}
 			$score = $score / $user_number;
 			$info2 = '<br>' . $score . '</br>';
 		}
-		
+		if ($flag == 0) {
+			$message = 'No such movie';
+		}	
+	
 		$conn->close();
 	} catch (Exception $e) {
 		$message = "error";
